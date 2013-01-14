@@ -23,7 +23,12 @@
 #define SRTP_STATE_LISTEN       5
 #define SRTP_STATE_TIME_WAIT    6
 
+/* for uint32_t type */
 #include <stdint.h>
+
+/* common includes */
+#include <net.h>
+#include <packet.h>
 
 /*** SRTP Header ***/
 struct srtp_hdr {
@@ -40,14 +45,14 @@ struct pktbuf {
 
 /* client PCB */
 struct srtp_client_pcb {
-    int sockfd; /* corresponding UDP socket */
+    struct conn_state *conn; /* the connection */
     int state;  /* connection state: CLOSED, ESTABLISHED, SYN_SENT or FIN_WAIT */
     struct pktbuf send_buf[SRTP_MAX_SEND_BUF_SIZE];  /* you need to define SRTP_MAX_SEND_BUF_SIZE */
 };
 
 /* server PCB */
 struct srtp_server_pcb {
-    int sockfd; /* corresponding UDP socket */
+    struct conn_state *conn; /* the connection */
     int state;  /* connection state: CLOSED, ESTABLISHED, LISTEN, FIN_WAIT */
 };
 
