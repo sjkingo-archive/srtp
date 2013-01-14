@@ -103,3 +103,17 @@ char *str_conn(struct conn_state *c) {
     snprintf(s, 1024, "<fd %d, %s:%d>", c->fd, c->server_ip, c->server_port);
     return s;
 }
+
+int port_from_sockaddr(struct sockaddr_in *addr) {
+    return ntohs(addr->sin_port);
+}
+
+char *ip_from_sockaddr(struct sockaddr_in *addr) {
+    socklen_t size = INET_ADDRSTRLEN;
+    char *buf = malloc(size);
+    if (inet_ntop(AF_INET, &addr->sin_addr, buf, size) == NULL) {
+        free(buf);
+        return NULL;
+    }
+    return buf;
+}
