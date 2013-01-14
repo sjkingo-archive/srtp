@@ -1,2 +1,4 @@
 *.o
-libsrtp.so.1
+*.so
+test/test_connect
+test/ack_server
