@@ -43,7 +43,10 @@ void block_for_ack(struct conn_state *conn, struct pktbuf *out, unsigned int exp
     while (1) {
         bytes_read = recvfrom(conn->fd, (char *)out, sizeof(*out), 0, 
                 (struct sockaddr *)&conn->inp, &sock_len);
-        printf("recvfrom: got %d bytes\n", bytes_read);
+        char *src_ip = ip_from_sockaddr(&conn->inp);
+        printf("recvfrom: got %d bytes from <%s:%d>\n", bytes_read, 
+                src_ip, port_from_sockaddr(&conn->inp));
+        free(src_ip);
 
         /* check the packet is valid */
         if (bytes_read != sizeof(*out) || !is_valid_type(out->hdr.type)) {
