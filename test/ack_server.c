@@ -29,6 +29,7 @@ static void loop_for_connections(struct conn_state *conn) {
     }
 
     printf("Listening for SRTP packets on UDP port %d\n", conn->server_port);
+    printf("\n");
 
     while (1) {
         struct sockaddr_in client_addr;
@@ -45,7 +46,10 @@ static void loop_for_connections(struct conn_state *conn) {
             perror("recvfrom");
             continue;
         }
-        printf("recvfrom: got %d bytes\n", bytes_read);
+        char *src_ip = ip_from_sockaddr(&client_addr);
+        printf("recvfrom: got %d bytes from <%s:%d>\n", bytes_read, src_ip,
+                port_from_sockaddr(&client_addr));
+        free(src_ip);
 
         if (bytes_read != sizeof(buf)) {
             fprintf(stderr, "recvfrom: dropping malformed packet\n");
