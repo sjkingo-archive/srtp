@@ -16,6 +16,7 @@ int srtp_connect(struct srtp_client_pcb *cpcb, char *dst_addr, int dst_port) {
     send_packet(cpcb->conn, p, true);
     free(p);
 
+    printf("Two-way handshake complete\n");
     printf("Connection to %s:%d successful\n", dst_addr, dst_port);
 
     return 0;
