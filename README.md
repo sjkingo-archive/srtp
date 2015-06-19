@@ -34,25 +34,27 @@ Full API documentation is available in `srtp/srtp.h`.
 
 `client.c`:
 
-    #include <stdio.h>
-    #include <string.h>
-    #include <srtp.h>
+```c
+#include <stdio.h>
+#include <string.h>
+#include <srtp.h>
 
-    int main(void) {
-        struct srtp_client_pcb cpcb;
+int main(void) {
+    struct srtp_client_pcb cpcb;
 
-        if (srtp_connect(&cpcb, "127.0.0.1", 5555) < 0) {
-            perror("srtp_connect");
-            return 1;
-        }
-
-        char *data = "Hello, world!\n";
-        if (srtp_send(&cpcb, data, strlen(data)) < 0) {
-            perror("srtp_send");
-            return 2;
-        }
-
-        srtp_close(&cpcb);
-
-        return 0;
+    if (srtp_connect(&cpcb, "127.0.0.1", 5555) < 0) {
+        perror("srtp_connect");
+        return 1;
     }
+
+    char *data = "Hello, world!\n";
+    if (srtp_send(&cpcb, data, strlen(data)) < 0) {
+        perror("srtp_send");
+        return 2;
+    }
+
+    srtp_close(&cpcb);
+
+    return 0;
+}
+```
